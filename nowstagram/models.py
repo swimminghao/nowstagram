@@ -5,9 +5,6 @@ import random
 from datetime import datetime
 
 
-
-
-
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     url = db.Column(db.String(512))
@@ -29,7 +26,7 @@ class User(db.Model):
     userName = db.Column(db.String(80), unique=True)
     passWord = db.Column(db.String(32))
     head_url = db.Column(db.String(256))
-    images = db.relationship('Image')
+    images = db.relationship('Image', backref='user', lazy='dynamic')
 
     def __init__(self, userName, passWord):
         self.userName = userName
@@ -39,6 +36,7 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %d %s>' % (self.id, self.userName)
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
